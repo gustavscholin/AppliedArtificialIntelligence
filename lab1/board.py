@@ -3,7 +3,7 @@ import numpy as np
 
 from lab1.game import Turn
 
-
+# Enum representing the pieces on the board
 class Piece(Enum):
     NONE = 0
     WHITE = 1
@@ -11,19 +11,30 @@ class Piece(Enum):
 
 class Board:
 
+    # Init the board with start state
     def __init__(self):
         self.board = np.zeros((8,8))
         self.board[3, 3] = Piece.WHITE
         self.board[4, 4] = Piece.WHITE
         self.board[3, 4] = Piece.BLACK
         self.board[4, 3] = Piece.BLACK
-        self.blacks = [(3,4), (4,3)]
-        self.whites = [(3,3), (4,4)]
+        self.empty_adj = []
+        self.
 
-
+    # Get all the valid moves for the current player
     def validMoves(self, turn):
+
+        # Assume white turn
+        opponent_pieces = self.blacks
+        # Check for black turn
         if turn == Turn.BLACK:
-            occupied = self.whites
-        else:
-            occupied = self.blacks
+            opponent_pieces = self.whites
+
+        # Find all open places adj to opponent tiles for potential moves
+        potential_moves = []
+        for i in range(0,len(opponent_pieces)):
+            curr_piece = opponent_pieces[i]
+
+
+    def getEmptyAdj(self, coords):
 
