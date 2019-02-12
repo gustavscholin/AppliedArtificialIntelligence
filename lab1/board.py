@@ -1,6 +1,9 @@
 from enum import Enum
 import numpy as np
 
+from lab1.game import Turn
+
+
 class Piece(Enum):
     NONE = 0
     WHITE = 1
@@ -14,7 +17,13 @@ class Board:
         self.board[4, 4] = Piece.WHITE
         self.board[3, 4] = Piece.BLACK
         self.board[4, 3] = Piece.BLACK
+        self.blacks = [(3,4), (4,3)]
+        self.whites = [(3,3), (4,4)]
 
 
     def validMoves(self, turn):
-        pass
+        if turn == Turn.BLACK:
+            occupied = self.whites
+        else:
+            occupied = self.blacks
+
