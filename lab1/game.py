@@ -1,6 +1,6 @@
 from enum import Enum
 import numpy as np
-from board import Board
+from lab1.board import Board
 
 
 class Turn(Enum):
