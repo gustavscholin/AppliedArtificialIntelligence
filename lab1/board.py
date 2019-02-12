@@ -1,3 +1,4 @@
+import copy
 from enum import Enum
 import numpy as np
 
@@ -14,10 +15,10 @@ class Board:
     # Init the board with start state
     def __init__(self):
         self.board = np.zeros((8,8))
-        self.board[3, 3] = Piece.WHITE
-        self.board[4, 4] = Piece.WHITE
-        self.board[3, 4] = Piece.BLACK
-        self.board[4, 3] = Piece.BLACK
+        self.board[3, 3] = Piece.WHITE.value
+        self.board[4, 4] = Piece.WHITE.value
+        self.board[3, 4] = Piece.BLACK.value
+        self.board[4, 3] = Piece.BLACK.value
         self.empty_adj = []
         self.
 
@@ -37,4 +38,17 @@ class Board:
 
 
     def getEmptyAdj(self, coords):
+        # TODO
+        pass
+
+    def getScore(self, turn):
+        # TODO
+        pass
+
+    def update(self, move, turn):
+        self.board[move[0],move[1]] = Piece[turn.name].value
+
+
+
+
 
