@@ -46,7 +46,7 @@ class Board:
     def getScore(self, turn):
         score = 0
         for slot in np.nditer(self.board):
-            if turn.value == slot:
+            if Piece[turn.name].value == slot:
                 score = score + 1
         return score
 
