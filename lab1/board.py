@@ -42,8 +42,11 @@ class Board:
         pass
 
     def getScore(self, turn):
-        # TODO
-        pass
+        score = 0
+        for slot in np.nditer(self.board):
+            if turn.value == slot:
+                score = score + 1
+        return score
 
     def update(self, move, turn):
         self.board[move[0],move[1]] = Piece[turn.name].value
