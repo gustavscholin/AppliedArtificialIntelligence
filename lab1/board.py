@@ -2,7 +2,10 @@ import copy
 from enum import Enum
 import numpy as np
 
-from lab1.game import Turn
+class Turn(Enum):
+    WHITE = 0
+    BLACK = 1
+
 
 # Enum representing the pieces on the board
 class Piece(Enum):
@@ -20,7 +23,6 @@ class Board:
         self.board[3, 4] = Piece.BLACK.value
         self.board[4, 3] = Piece.BLACK.value
         self.empty_adj = []
-        self.
 
     # Get all the valid moves for the current player
     def validMoves(self, turn):
@@ -50,6 +52,9 @@ class Board:
 
     def update(self, move, turn):
         self.board[move[0],move[1]] = Piece[turn.name].value
+
+    def __str__(self):
+        return str(self.board)
 
 
 
