@@ -1,5 +1,4 @@
 from lab1.board import Board
-
 from lab1.board import Turn
 
 class Game:
