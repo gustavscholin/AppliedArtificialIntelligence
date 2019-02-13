@@ -1,6 +1,6 @@
 import copy
 
-from lab1.game import Turn
+from lab1.board import Turn
 
 
 class Player:
@@ -16,7 +16,7 @@ class Player:
         return toRet
 
 
-# Class representing
+# Class representing a computer player
 class AIPlayer(Player):
 
     def getMove(self, board):

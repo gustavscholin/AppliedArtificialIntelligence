@@ -1,11 +1,6 @@
-from enum import Enum
-import numpy as np
 from lab1.board import Board
 
-
-class Turn(Enum):
-    WHITE = 0
-    BLACK = 1
+from lab1.board import Turn
 
 class Game:
 
