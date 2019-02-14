@@ -1,7 +1,7 @@
 from enum import Enum
 import numpy as np
 
-class Turn(Enum):
+class Color(Enum):
     WHITE = 0
     BLACK = 1
 
@@ -28,7 +28,7 @@ class Board:
         # Assume white turn
         opponent_pieces = self.blacks
         # Check for black turn
-        if turn == Turn.BLACK:
+        if turn == Color.BLACK:
             opponent_pieces = self.whites
 
         # Find all open places adj to opponent tiles for potential moves
@@ -76,7 +76,7 @@ class Board:
 
     # Flip the color of a specified line if valid move
     def convertLine(self, turn, move, dir):
-        lookingFor = Piece.WHITE.value if turn == Turn.WHITE else Piece.BLACK.value
+        lookingFor = Piece.WHITE.value if turn == Color.WHITE else Piece.BLACK.value
         toConvert = []
         converted = False
         i = move[0]
