@@ -1,17 +1,9 @@
-from lab1.board import Board, Color
+from lab1.board import Turn
 from lab1.player import HumanPlayer
+from lab1.game import Game
 
-# print("THIS IS MAIN")
-#
-board = Board()
-board.printBoard()
-# move = (2,2)
-# board.update(move, Turn.WHITE)
-#
-# board.printBoard()
-#
-# print(board.getScore(Turn.BLACK))
+player1 = HumanPlayer(Turn.WHITE)
+player2 = HumanPlayer(Turn.BLACK)
 
-p1 = HumanPlayer(Color.WHITE)
-move = p1.getMove(board)
-print(move)
+game = Game(player1, player2)
+game.start()
