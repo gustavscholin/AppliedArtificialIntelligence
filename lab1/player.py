@@ -1,7 +1,7 @@
 import copy
 import sys
 
-from lab1.board import Turn
+from lab1.board import Color
 
 
 class Player:
@@ -21,9 +21,9 @@ class Player:
 class AIPlayer(Player):
 
     def getMove(self, board, d = 4):
-        op_color = Turn.BLACK
+        op_color = Color.BLACK
         if self.color == op_color:
-            op_color = Turn.WHITE
+            op_color = Color.WHITE
 
         actions = board.validMoves(self.color)
         action_values = []
@@ -32,22 +32,22 @@ class AIPlayer(Player):
             new_board.update(a, self.color)
             action_values.append(self.minValue(new_board, -sys.maxsize, sys.maxsize, 1, self.color))
 
-        def maxValue(board, alpha, beta, depth, color):
-            actions = board.validMoves(color)
+        def maxValue(board, alpha, beta, depth):
+            actions = board.validMoves(self.color)
             if not actions or depth > d:
-                return board.getScore(color)
+                return board.getScore(self.color)
 
             v = -sys.maxsize
             for a in actions:
                 new_board = copy.deepcopy(board)
-                new_board.update(a, color)
+                new_board.update(a, self.color)
                 v = max(v, minValue(new_board, alpha, beta, depth + 1, op_color))
                 if v >= beta:
                     return v
                 alpha = max(alpha, v)
             return v
 
-        def minValue(board, alpha, beta, depth, color):
+        def minValue(board, alpha, beta, depth):
             actions = board.validMoves(op_color)
             if not actions or depth > d:
                 return board.getScore(op_color)
@@ -69,7 +69,21 @@ class AIPlayer(Player):
 class HumanPlayer(Player):
 
     def getMove(self, board):
-        row = input("Type a row:")
-        col = input("Type a col:")
-        toRet = (row, col)
-        return toRet
+        valid_input = False
+        move = ()
+        while not valid_input:
+            user_input = input('What is your move?')
+            if len(user_input.split()) != 2:
+                print('Invalid input')
+            else:
+                try:
+                    numbers = (int(x) for x in user_input.split())
+                except ValueError:
+                    print('Invalid input')
+                else:
+                    move = tuple(numbers)
+                    if (move in board.validMoves(self.color)):
+                        valid_input = True
+                    else:
+                        print('Invalid move')
+        return move

@@ -1,5 +1,5 @@
 from lab1.board import Board
-from lab1.board import Turn
+from lab1.board import Color
 
 class Game:
 
@@ -9,7 +9,7 @@ class Game:
         self.players.append(player_w)
         self.players.append(player_b)
         self.board = Board()
-        self.turn = Turn.BLACK
+        self.turn = Color.BLACK
 
     # Start the game and execute until a winner emerges
     def start(self):
@@ -17,5 +17,8 @@ class Game:
         while self.board.validMoves(self.turn):
             curr_move = self.players[self.turn].getMove(self.board)
             self.board.update(curr_move, self.turn)
-            self.turn = Turn.WHITE if self.turn else Turn.BLACK
+            self.turn = Color.WHITE if self.turn else Color.BLACK
         print("GAME ENDED")
+
+        print('White:' + self.board.getScore(Color.WHITE))
+        print('Black:' + self.board.getScore(Color.BLACK))
