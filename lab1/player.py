@@ -69,6 +69,7 @@ class AIPlayer(Player):
 class HumanPlayer(Player):
 
     def getMove(self, board):
-        print("HUMAN PLAYER")
-        toRet = (0, 0)
+        row = input("Type a row:")
+        col = input("Type a col:")
+        toRet = (row, col)
         return toRet

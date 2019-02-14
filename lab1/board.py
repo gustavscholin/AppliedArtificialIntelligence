@@ -20,21 +20,46 @@ class Board:
         self.board[4, 4] = Piece.WHITE.value
         self.board[3, 4] = Piece.BLACK.value
         self.board[4, 3] = Piece.BLACK.value
-        self.empty_adj = []
+        self.empty_adj = [(2,2), (2,3), (2,4), (2,5), (3,2), (3,5), (4,2), (4,5),
+                          (5,2), (5,3), (5,4), (5,5)]
 
     # Get all the valid moves for the current player
     def validMoves(self, turn):
+        valid_moves = []
+        # Check every empty square adj to a piece
+        for sqr in self.empty_adj:
+            if self.isValidMove(turn, sqr):
+                valid_moves.append(sqr)
+        return valid_moves
 
-        # Assume white turn
-        opponent_pieces = self.blacks
-        # Check for black turn
-        if turn == Turn.BLACK:
-            opponent_pieces = self.whites
+    # Check a given square is a valid move for a specific player
+    def isValidMove(self, turn, move):
+        isValid = False
+        for sqr in self.getFilledAdj(move):
+            dir = (sqr[0] - move[0], sqr[1] - move[1])
+            isValid = self.wouldBeConvertedLine(turn, move, dir)
+            if isValid:
+                break
+        return isValid
 
-        # Find all open places adj to opponent tiles for potential moves
-        potential_moves = []
-        for i in range(0,len(opponent_pieces)):
-            curr_piece = opponent_pieces[i]
+    # Check if a certain line would be converted if a player where to make this move
+    def wouldBeConvertedLine(self, turn, move, dir):
+        turnPiece = Piece.WHITE.value if turn == Turn.WHITE else Piece.BLACK.value
+        opponentPiece = Piece.BLACK.value if turn == Turn.WHITE else Piece.WHITE.value
+        foundOpponent = False
+        converted = False
+        i = move[0]
+        j = move[1]
+        while not converted:
+            i += dir[0]  # Current square to consider
+            j += dir[1]
+            if i < 0 or i > 7 or j < 0 or j > 7 or self.board[i, j] == Piece.NONE.value:
+                break
+            if self.board[i, j] == opponentPiece:
+                foundOpponent = True
+            elif self.board[i, j] == turnPiece and foundOpponent:
+                converted = True
+        return converted
 
     # Return a list of all the empty adjacent squares to the given square
     def getEmptyAdj(self, coords):
@@ -55,9 +80,11 @@ class Board:
             for j in range(coords[1] - 1, coords[1] + 2):
                 if j < 0 or j > 7: continue # Check col in board
                 if filled and self.board[i,j] != Piece.NONE.value:
-                    adj.append([i, j])
+                    toAdd = (i,j)
+                    adj.append(toAdd)
                 if not filled and self.board[i,j] == Piece.NONE.value:
-                    adj.append([i, j])
+                    toAdd = (i, j)
+                    adj.append(toAdd)
         return adj
 
     # Return the score of a player
@@ -70,9 +97,20 @@ class Board:
 
     # Update the board with a given move
     def update(self, move, turn):
-        self.board[move[0],move[1]] = Piece[turn.name].value
+
+        # Populate new square
+        self.board[move[0], move[1]] = Piece[turn.name].value
+        toRev = (move[0], move[1])
+        self.empty_adj.remove(toRev)  # Remove newly populated square from adj empty
+
+        # Add all of the new empty adj squares
+        for sqr in self.getEmptyAdj(move):
+            if sqr not in self.empty_adj:
+                self.empty_adj.append(sqr)
+
+        # Convert each line necessary
         for sqr in self.getFilledAdj(move):
-            self.convertLine(turn, move,[sqr[0] - move[0], sqr[1] - move[1]])
+            self.convertLine(turn, move, [sqr[0] - move[0], sqr[1] - move[1]])
 
     # Flip the color of a specified line if valid move
     def convertLine(self, turn, move, dir):
