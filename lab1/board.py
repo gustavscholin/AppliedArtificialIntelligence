@@ -44,8 +44,8 @@ class Board:
 
     # Check if a certain line would be converted if a player where to make this move
     def wouldBeConvertedLine(self, turn, move, dir):
-        turnPiece = Piece.WHITE.value if turn == Turn.WHITE else Piece.BLACK.value
-        opponentPiece = Piece.BLACK.value if turn == Turn.WHITE else Piece.WHITE.value
+        turnPiece = Piece.WHITE.value if turn == Color.WHITE else Piece.BLACK.value
+        opponentPiece = Piece.BLACK.value if turn == Color.WHITE else Piece.WHITE.value
         foundOpponent = False
         converted = False
         i = move[0]
@@ -57,8 +57,11 @@ class Board:
                 break
             if self.board[i, j] == opponentPiece:
                 foundOpponent = True
-            elif self.board[i, j] == turnPiece and foundOpponent:
-                converted = True
+            elif self.board[i, j] == turnPiece:
+                if foundOpponent:
+                    converted = True
+                else:
+                    break
         return converted
 
     # Return a list of all the empty adjacent squares to the given square

@@ -1,3 +1,5 @@
+import time
+
 from lab1.board import Board
 from lab1.board import Color
 
@@ -15,10 +17,15 @@ class Game:
     def start(self):
         print("GAME START")
         while self.board.validMoves(self.turn):
-            curr_move = self.players[self.turn].getMove(self.board)
+            self.board.printBoard()
+            t = time.time()
+            curr_move = self.players[self.turn.value].getMove(self.board)
+            print('Move time: ' + str(time.time() - t))
             self.board.update(curr_move, self.turn)
-            self.turn = Color.WHITE if self.turn else Color.BLACK
+            self.turn = Color.WHITE if self.turn.value else Color.BLACK
         print("GAME ENDED")
-
-        print('White:' + self.board.getScore(Color.WHITE))
-        print('Black:' + self.board.getScore(Color.BLACK))
+        print()
+        self.board.printBoard()
+        print()
+        print('White: ' + str(self.board.getScore(Color.WHITE)))
+        print('Black: ' + str(self.board.getScore(Color.BLACK)))
