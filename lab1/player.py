@@ -101,7 +101,8 @@ class HumanPlayer(Player):
 
     # Get the next move from the human player
     def getMove(self, board):
-        print(str(board.validMoves(self.color)) + '\n')
+        print()
+        print('Possible moves: ' +  str(board.validMoves(self.color)) + '\n')
         valid_input = False
         move = ()
 
