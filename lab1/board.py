@@ -44,8 +44,8 @@ class Board:
 
     # Check if a certain line would be converted if a player where to make this move
     def wouldBeConvertedLine(self, turn, move, dir):
-        turnPiece = Piece.WHITE.value if turn == Turn.WHITE else Piece.BLACK.value
-        opponentPiece = Piece.BLACK.value if turn == Turn.WHITE else Piece.WHITE.value
+        turnPiece = Piece.WHITE.value if turn == Color.WHITE else Piece.BLACK.value
+        opponentPiece = Piece.BLACK.value if turn == Color.WHITE else Piece.WHITE.value
         foundOpponent = False
         converted = False
         i = move[0]
@@ -57,8 +57,11 @@ class Board:
                 break
             if self.board[i, j] == opponentPiece:
                 foundOpponent = True
-            elif self.board[i, j] == turnPiece and foundOpponent:
-                converted = True
+            elif self.board[i, j] == turnPiece:
+                if foundOpponent:
+                    converted = True
+                else:
+                    break
         return converted
 
     # Return a list of all the empty adjacent squares to the given square
@@ -143,3 +146,21 @@ class Board:
                     toPrint = " X"
                 print(toPrint,"|",end="")
             print("") # Newline
+
+    # Print the board with the labeled valid moves for a specific color
+    def printBoard(self, turn):
+        valid = self.validMoves(turn)
+        print("    0   1   2   3   4   5   6   7  VALID FOR:", turn.name)
+        for i in range(0, 8):
+            print(i, "|", end="")
+            for j in range(0, 8):
+                move = (i, j)
+                toPrint = "  "
+                if self.board[i, j] == Piece.WHITE.value:
+                    toPrint = " O"
+                elif self.board[i, j] == Piece.BLACK.value:
+                    toPrint = " X"
+                elif move in valid:
+                    toPrint = " +"
+                print(toPrint, "|", end="")
+            print("")  # Newline

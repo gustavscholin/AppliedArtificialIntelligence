@@ -15,9 +15,10 @@ class Game:
     def start(self):
         print("GAME START")
         while self.board.validMoves(self.turn):
-            curr_move = self.players[self.turn].getMove(self.board)
+            self.board.printBoard(self.turn)
+            curr_move = self.players[self.turn.value].getMove(self.board)
             self.board.update(curr_move, self.turn)
-            self.turn = Color.WHITE if self.turn else Color.BLACK
+            self.turn = Color.WHITE if self.turn == Color.BLACK else Color.BLACK
         print("GAME ENDED")
 
         print('White:' + self.board.getScore(Color.WHITE))
