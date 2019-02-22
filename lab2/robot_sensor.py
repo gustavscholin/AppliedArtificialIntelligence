@@ -1,8 +1,6 @@
 import numpy as np
 import random
 
-nothing_mat = []
-
 # Method to return the simulated sensor reading
 # Parameters: Tuple with true position, number of rows, and number of cols
 # Return: Tuple with the sensor read position
@@ -23,7 +21,7 @@ def get_sensor_reading(true_position, nbr_rows, nbr_cols):
     level_2_range = (level_1_upper_lim + 1, level_2_upper_lim)
 
     # Choose square to return
-    choosen = random.randint(1, 101)
+    choosen = random.randint(0, 100)
 
     if true_range[0] <= choosen <= true_range[1]:
         return true_position
@@ -101,5 +99,5 @@ def gen_nothing_mat(rows, cols):
         curr_state = ((i // 4) // rows, (i // 4) % cols)
         level_1 = get_level_1(curr_state, rows, cols)
         level_2 = get_level_2(curr_state, rows, cols)
-        ret_mat[i, i] = 1.0 - (len(level_1)*0.05 + len(level_2)*0.025 + 0.01)
+        ret_mat[i, i] = 1.0 - (len(level_1)*0.05 + len(level_2)*0.025 + 0.1)
     return ret_mat
