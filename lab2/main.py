@@ -11,7 +11,7 @@ f = np.ones((size ** 2 * 4, 1)) * (1 / (size ** 2))
 robot_pos = []
 pos = (random.randint(0, size - 1), random.randint(0, size - 1))
 dir = random.choice([(-1, 0), (0, 1), (1, 0), (0, -1)])
-#robot_pos.append(pos)
+# robot_pos.append(pos)
 
 for i in range(2):
     movement = rm.get_move(pos, dir, size, size)

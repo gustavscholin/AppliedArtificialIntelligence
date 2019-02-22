@@ -1,6 +1,7 @@
 import numpy as np
 import random
 
+nothing_mat = []
 
 # Method to return the simulated sensor reading
 # Parameters: Tuple with true position, number of rows, and number of cols
@@ -75,15 +76,30 @@ def get_level_2(true_position, nbr_rows, nbr_cols):
 # Parameter: Position on the board, the number of rows, and the number of cols
 # Return: The observation matrix for the given state
 def get_obs_mat(pos, rows, cols):
-    level_1 = get_level_1(pos, rows, cols)
-    level_2 = get_level_2(pos, rows, cols)
-    ret_mat = np.zeros((4*rows*cols, 4*rows*cols))
-    for i in range(4*rows*cols):
+    if pos == (-1, -1):  # Received 'nothing' from sensor
+        return gen_nothing_mat(rows, cols)
+    ret_mat = np.zeros((4 * rows * cols, 4 * rows * cols))
+    for i in range(4*rows*cols):  # Actual coord returned from sensor
+        level_1 = get_level_1(pos, rows, cols)
+        level_2 = get_level_2(pos, rows, cols)
         curr_state = ((i // 4) // rows, (i // 4) % cols)
         if curr_state == pos:
-            ret_mat[i, i] = 0.1
+             ret_mat[i, i] = 0.1
         elif curr_state in level_1:
             ret_mat[i, i] = 0.05
         elif curr_state in level_2:
             ret_mat[i, i] = 0.025
+    return ret_mat
+
+
+# Initialize the 'Nothing' observation matrix
+# Parameters: Number of rows and cols
+# Return: The (4*rows*cols)x(4*rows*cols) observation matrix
+def gen_nothing_mat(rows, cols):
+    ret_mat = np.zeros((4 * rows * cols, 4 * rows * cols))
+    for i in range(0, 4 * rows * cols):  # For every state (x,y,dir)
+        curr_state = ((i // 4) // rows, (i // 4) % cols)
+        level_1 = get_level_1(curr_state, rows, cols)
+        level_2 = get_level_2(curr_state, rows, cols)
+        ret_mat[i, i] = 1.0 - (len(level_1)*0.05 + len(level_2)*0.025 + 0.01)
     return ret_mat
