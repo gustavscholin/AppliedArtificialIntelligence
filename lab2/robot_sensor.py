@@ -1,8 +1,6 @@
 import numpy as np
 import random
 
-nothing_mat = []
-
 # Method to return the simulated sensor reading
 # Parameters: Tuple with true position, number of rows, and number of cols
 # Return: Tuple with the sensor read position
@@ -23,7 +21,7 @@ def get_sensor_reading(true_position, nbr_rows, nbr_cols):
     level_2_range = (level_1_upper_lim + 1, level_2_upper_lim)
 
     # Choose square to return
-    choosen = random.randint(1, 101)
+    choosen = random.randint(0, 100)
 
     if true_range[0] <= choosen <= true_range[1]:
         return true_position
