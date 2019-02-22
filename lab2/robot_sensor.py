@@ -27,9 +27,13 @@ def get_sensor_reading(true_position, nbr_rows, nbr_cols):
         return true_position
     elif level_1_range[0] <= choosen <= level_1_range[1]:
         ind = int((choosen - true_upper_lim - 1) / 5)
+        if ind >= len(level_1):
+            ind = ind - 1
         return level_1[ind]
     elif level_2_range[0] <= choosen <= level_2_range[1]:
         ind = int((choosen - level_1_upper_lim - 1) / 2.5)
+        if ind >= len(level_2):
+            ind = ind - 1
         return level_2[ind]
     else:
         return (-1, -1)
