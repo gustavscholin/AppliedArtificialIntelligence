@@ -101,5 +101,5 @@ def gen_nothing_mat(rows, cols):
         curr_state = ((i // 4) // rows, (i // 4) % cols)
         level_1 = get_level_1(curr_state, rows, cols)
         level_2 = get_level_2(curr_state, rows, cols)
-        ret_mat[i, i] = 1.0 - (len(level_1)*0.05 + len(level_2)*0.025 + 0.01)
+        ret_mat[i, i] = 1.0 - (len(level_1)*0.05 + len(level_2)*0.025 + 0.1)
     return ret_mat

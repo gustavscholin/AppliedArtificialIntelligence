@@ -13,7 +13,7 @@ pos = (random.randint(0, size - 1), random.randint(0, size - 1))
 dir = random.choice([(-1, 0), (0, 1), (1, 0), (0, -1)])
 # robot_pos.append(pos)
 
-for i in range(2):
+for i in range(100):
     movement = rm.get_move(pos, dir, size, size)
     pos = movement[0]
     dir = movement[1]
@@ -22,7 +22,7 @@ for i in range(2):
     f = np.matmul(o_mat, np.matmul(t_mat.transpose(), f))
     f = f/sum(f)
 
-robot_pos.append(pos)
+    robot_pos.append(pos)
 
 print(f)
 print()
