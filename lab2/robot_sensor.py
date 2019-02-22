@@ -71,4 +71,19 @@ def get_level_2(true_position, nbr_rows, nbr_cols):
     return adj
 
 
-print("RETURN:", get_sensor_reading((5,5), 10, 10))
+# Getter method for the observation matrix  of a given state
+# Parameter: Position on the board, the number of rows, and the number of cols
+# Return: The observation matrix for the given state
+def get_obs_mat(pos, rows, cols):
+    level_1 = get_level_1(pos, rows, cols)
+    level_2 = get_level_2(pos, rows, cols)
+    ret_mat = np.zeros((4*rows*cols, 4*rows*cols))
+    for i in range(4*rows*cols):
+        curr_state = ((i // 4) // rows, (i // 4) % cols)
+        if curr_state == pos:
+            ret_mat[i, i] = 0.1
+        elif curr_state in level_1:
+            ret_mat[i, i] = 0.05
+        elif curr_state in level_2:
+            ret_mat[i, i] = 0.025
+    return ret_mat
