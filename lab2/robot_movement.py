@@ -33,7 +33,6 @@ def get_transition_matrix(nbr_rows, nbr_cols):
                 for op_dir in dirs:
                     if op_dir is not None:
                         if dirs[dir] is not None:
-                            print(to_indexes[dirs.index(op_dir)])
                             t_matrix[from_index, to_indexes[dirs.index(op_dir)]] = 0.7 if op_dir == dirs[
                                 dir] else 0.3 / (nbr_valid_dirs - 1)
                         else:
