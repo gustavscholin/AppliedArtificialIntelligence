@@ -17,7 +17,7 @@ class Game:
     def start(self):
         print("GAME START")
         while self.board.validMoves(self.turn):
-            self.board.printBoard()
+            self.board.printBoard(self.turn)
             t = time.time()
             curr_move = self.players[self.turn.value].getMove(self.board)
             print('Move time: ' + str(time.time() - t))
