@@ -6,6 +6,8 @@
 
 import lab3.datasets as ds
 import copy
+import matplotlib
+matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
 
 
@@ -44,10 +46,15 @@ def fit_line_batch(char_list, a_list, rate):
             w0_loss = w0_loss + (char_list[j] - (w0 + w1 * a_list[j]))
             w1_loss = w1_loss + (char_list[j] - (w0 + w1 * a_list[j])) * a_list[j]
 
+        print((w0_loss, w1_loss))
         w0 = w0 + rate * w0_loss
-        w1 = w0 + rate * w1_loss
+        w1 = w1 + rate * w1_loss
 
     return w0, w1
+
+
+def fit_line_batch_vec(char_list, a_list, rate, w):
+    pass
 
 
 # Function to find the best fit line using stochastic gradient descent
@@ -72,14 +79,14 @@ en_as_n = normalize_data(en_as)
 fr_chars_n = normalize_data(fr_chars)
 fr_as_n = normalize_data(fr_as)
 
-l_rate = 0.0001  # Learning rate for the gradient descent
+l_rate = 0.1  # Learning rate for the gradient descent
 
 # Calculate batch linear regression
 en_w0, en_w1 = fit_line_batch(en_chars_n, en_as_n, l_rate)
 fr_w0, fr_w1 = fit_line_batch(fr_chars_n, fr_as_n, l_rate)
 
+print((en_chars_n, en_as_n))
 
 plt.plot(en_chars_n, en_as_n, '.')
 plt.plot([0, 1], [en_w0, en_w1 + en_w0])
 plt.show()
-
