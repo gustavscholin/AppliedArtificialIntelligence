@@ -6,6 +6,7 @@
 
 import lab3.datasets as ds
 import copy
+from matplotlib import pyplot as plt
 
 
 # ----------------
@@ -33,10 +34,6 @@ def normalize_data(in_list):
 def fit_line_batch(char_list, a_list, rate):
     w0, w1 = 0.5, 0.5
 
-    # Normalize data to range [0,1]
-    char_list_n = normalize_data(char_list)
-    a_list_n = normalize_data(a_list)
-
     # Start gradient descent
     for i in range(0, 500):
         w0_loss = 0
@@ -44,11 +41,11 @@ def fit_line_batch(char_list, a_list, rate):
 
         # Calculate the loss for w0 and w1
         for j in range(0, len(a_list)):
-            w0_loss = w0_loss + (char_list_n[j] - (w0 + w1 * a_list_n[j]))
-            w1_loss = w1_loss + (char_list_n[j] - (w0 + w1 * a_list_n[j]))
+            w0_loss = w0_loss + (char_list[j] - (w0 + w1 * a_list[j]))
+            w1_loss = w1_loss + (char_list[j] - (w0 + w1 * a_list[j])) * a_list[j]
 
-        w0 = w0 + l_rate * w0_loss
-        w1 = w0 + l_rate * w1_loss
+        w0 = w0 + rate * w0_loss
+        w1 = w0 + rate * w1_loss
 
     return w0, w1
 
@@ -69,10 +66,20 @@ def fit_line_stochastic(char_list, a_list, rate):
 en_chars, en_as = ds.get_data_en()
 fr_chars, fr_as = ds.get_data_fr()
 
-l_rate = 1  # Learning rate for the gradient descent
+# Normalize data to range [0,1]
+en_chars_n = normalize_data(en_chars)
+en_as_n = normalize_data(en_as)
+fr_chars_n = normalize_data(fr_chars)
+fr_as_n = normalize_data(fr_as)
 
-en_w0, en_w1 = fit_line_batch(en_chars, en_as, l_rate)
-fr_w0, fr_w1 = fit_line_batch(fr_chars, fr_as, l_rate)
+l_rate = 0.0001  # Learning rate for the gradient descent
+
+# Calculate batch linear regression
+en_w0, en_w1 = fit_line_batch(en_chars_n, en_as_n, l_rate)
+fr_w0, fr_w1 = fit_line_batch(fr_chars_n, fr_as_n, l_rate)
 
 
+plt.plot(en_chars_n, en_as_n, '.')
+plt.plot([0, 1], [en_w0, en_w1 + en_w0])
+plt.show()
 
