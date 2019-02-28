@@ -27,7 +27,7 @@ def batch_gradient_decent(x, y, alpha, w):
 
 
 def stoch_grad_decent(x, y, alpha, w):
-
+    pass
 
 
 x_en, y_en = ds.get_data_en()
