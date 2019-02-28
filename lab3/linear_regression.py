@@ -2,13 +2,13 @@
 # Perform the linear regression for the number of characters vs numbers of a's in the text
 # Author: Noah Solomon, Gustav Scholin
 #
-import numpy as np
 
 import lab3.datasets as ds
 import copy
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
+import numpy as np
 
 
 # ----------------
@@ -35,7 +35,6 @@ def normalize_data(in_list):
 # Return: Weights w0 and w1 in the line y = w0 + w1*x
 def fit_line_batch(char_list, a_list, rate):
     w0, w1 = 0.5, 0.5
-
     # Start gradient descent
     for i in range(0, 500):
         w0_loss = 0
@@ -58,6 +57,17 @@ def fit_line_batch(char_list, a_list, rate):
 # Return: Weights w0 and w1 in the line y = w0 + w1*x
 def fit_line_stochastic(char_list, a_list, rate):
     w0, w1 = 0.5, 0.5
+    # Start gradient descent
+    for j in range(0, 500):
+        # Create random index vector
+        inds = np.arange(len(char_list))
+        np.random.shuffle(inds)
+        # For each point
+        for i in range(0, len(char_list)):
+            # Calculate the loss of the point
+            w0 = w0 + rate * (char_list[inds[i]] - (w1 * a_list[inds[i]] + w0))
+            w1 = w1 + rate * (char_list[inds[i]] - (w1 * a_list[inds[i]] + w0)) * a_list[inds[i]]
+
     return w0, w1
 
 
@@ -75,11 +85,12 @@ en_as_n = normalize_data(en_as)
 fr_chars_n = normalize_data(fr_chars)
 fr_as_n = normalize_data(fr_as)
 
-l_rate = 0.1  # Learning rate for the gradient descent
+l_rate_batch = 0.1  # Learning rate for the batch/stochastic gradient descent
+l_rate_stochastic = 0.1
 
 # Calculate batch linear regression
-en_w0, en_w1 = fit_line_batch(en_chars_n, en_as_n, l_rate)
-fr_w0, fr_w1 = fit_line_batch(fr_chars_n, fr_as_n, l_rate)
+en_w0, en_w1 = fit_line_stochastic(en_chars_n, en_as_n, l_rate_stochastic)
+fr_w0, fr_w1 = fit_line_stochastic(fr_chars_n, fr_as_n, l_rate_stochastic)
 
 print((en_w0, en_w1))
 
