@@ -2,7 +2,7 @@
 # Perform the linear regression for the number of characters vs numbers of a's in the text
 # Author: Noah Solomon, Gustav Scholin
 #
-
+import numpy as np
 
 import lab3.datasets as ds
 import copy
@@ -53,10 +53,6 @@ def fit_line_batch(char_list, a_list, rate):
     return w0, w1
 
 
-def fit_line_batch_vec(char_list, a_list, rate, w):
-    pass
-
-
 # Function to find the best fit line using stochastic gradient descent
 # Parameters: number of total characters, number of as, and learning rate
 # Return: Weights w0 and w1 in the line y = w0 + w1*x
@@ -85,7 +81,7 @@ l_rate = 0.1  # Learning rate for the gradient descent
 en_w0, en_w1 = fit_line_batch(en_chars_n, en_as_n, l_rate)
 fr_w0, fr_w1 = fit_line_batch(fr_chars_n, fr_as_n, l_rate)
 
-print((en_chars_n, en_as_n))
+print((en_w0, en_w1))
 
 plt.plot(en_chars_n, en_as_n, '.')
 plt.plot([0, 1], [en_w0, en_w1 + en_w0])
