@@ -88,12 +88,19 @@ fr_as_n = normalize_data(fr_as)
 l_rate_batch = 0.1  # Learning rate for the batch/stochastic gradient descent
 l_rate_stochastic = 0.1
 
-# Calculate batch linear regression
-en_w0, en_w1 = fit_line_stochastic(en_chars_n, en_as_n, l_rate_stochastic)
-fr_w0, fr_w1 = fit_line_stochastic(fr_chars_n, fr_as_n, l_rate_stochastic)
+# Calculate stochastic linear regression
+en_w0_st, en_w1_st = fit_line_stochastic(en_chars_n, en_as_n, l_rate_stochastic)
+fr_w0_st, fr_w1_st = fit_line_stochastic(fr_chars_n, fr_as_n, l_rate_stochastic)
 
-print((en_w0, en_w1))
+# Calculate batch linear regression
+en_w0_bt, en_w1_bt = fit_line_batch(en_chars_n, en_as_n, l_rate_batch)
+fr_w0_bt, fr_w1_bt = fit_line_batch(fr_chars_n, fr_as_n, l_rate_batch)
+
+print("ENG BATCH:",(en_w0_bt, en_w1_bt))
+print("FRN BATCH:",(fr_w0_bt, fr_w1_bt))
+print("ENG STOCH:",(en_w0_st, en_w1_st))
+print("FRN STOCH:",(fr_w0_st, fr_w1_st))
 
 plt.plot(en_chars_n, en_as_n, '.')
-plt.plot([0, 1], [en_w0, en_w1 + en_w0])
+plt.plot([0, 1], [en_w0_bt, en_w1_bt + en_w0_bt])
 plt.show()
