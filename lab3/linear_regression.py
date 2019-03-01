@@ -45,7 +45,6 @@ def fit_line_batch(char_list, a_list, rate):
             w0_loss = w0_loss + (char_list[j] - (w0 + w1 * a_list[j]))
             w1_loss = w1_loss + (char_list[j] - (w0 + w1 * a_list[j])) * a_list[j]
 
-        print((w0_loss, w1_loss))
         w0 = w0 + rate * w0_loss
         w1 = w1 + rate * w1_loss
 
@@ -89,11 +88,38 @@ l_rate_batch = 0.1  # Learning rate for the batch/stochastic gradient descent
 l_rate_stochastic = 0.1
 
 # Calculate batch linear regression
-en_w0, en_w1 = fit_line_stochastic(en_chars_n, en_as_n, l_rate_stochastic)
-fr_w0, fr_w1 = fit_line_stochastic(fr_chars_n, fr_as_n, l_rate_stochastic)
+en_w0_batch, en_w1_batch = fit_line_batch(en_chars_n, en_as_n, l_rate_batch)
+fr_w0_batch, fr_w1_batch = fit_line_batch(fr_chars_n, fr_as_n, l_rate_batch)
 
-print((en_w0, en_w1))
-
+plt.figure()
+plt.subplot(1,2,1)
 plt.plot(en_chars_n, en_as_n, '.')
-plt.plot([0, 1], [en_w0, en_w1 + en_w0])
+plt.plot([0, 1], [en_w0_batch, en_w1_batch + en_w0_batch])
+plt.title('English')
+
+plt.subplot(1,2,2)
+plt.plot(fr_chars_n, fr_as_n, '.')
+plt.plot([0, 1], [fr_w0_batch, fr_w1_batch + fr_w0_batch])
+plt.title('French')
+plt.suptitle('Linear Regression, Batch Gradient Decent')
+
+# Calculate stochastic linear regression
+en_w0_stoch, en_w1_stoch = fit_line_stochastic(en_chars_n, en_as_n, l_rate_stochastic)
+fr_w0_stoch, fr_w1_stoch = fit_line_stochastic(fr_chars_n, fr_as_n, l_rate_stochastic)
+
+plt.figure()
+plt.subplot(1,2,1)
+plt.plot(en_chars_n, en_as_n, '.')
+plt.plot([0, 1], [en_w0_stoch, en_w1_stoch + en_w0_stoch])
+plt.title('English')
+
+plt.subplot(1,2,2)
+plt.plot(fr_chars_n, fr_as_n, '.')
+plt.plot([0, 1], [fr_w0_stoch, fr_w1_stoch + fr_w0_stoch])
+plt.title('French')
+plt.suptitle('Linear Regression, Stochastic Gradient Decent')
+
+print((en_w0_stoch, en_w1_stoch))
+print((en_w0_batch, en_w1_batch))
+
 plt.show()
